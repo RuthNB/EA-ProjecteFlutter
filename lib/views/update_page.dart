@@ -14,7 +14,7 @@ class UpdatePage extends StatelessWidget {
       home: Scaffold(
         drawer: const DrawerScreen(),
         appBar: AppBar(
-            title: const Text("Update User"),
+            title: const Text("Update"),
             backgroundColor: Colors.deepPurple[300]),
         body: const FormWidgetUpdate(), //cridar
       ),
