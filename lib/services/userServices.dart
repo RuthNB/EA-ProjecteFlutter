@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
 class UserServices extends ChangeNotifier {
-
-  User _userData = new User(name:"",id: "",password:"",email: "");
+  User _userData =
+      new User(name: "", id: "", password: "", email: "", admin: false);
 
   User get userData => _userData;
 
@@ -18,6 +18,7 @@ class UserServices extends ChangeNotifier {
   void setUserData(User userData) {
     _userData = userData;
   }
+
   Future<List<User>?> getUsers() async {
     var client = http.Client();
     var uri = Uri.parse('http://localhost:5432/api/users');
@@ -28,26 +29,24 @@ class UserServices extends ChangeNotifier {
     }
     return null;
   }
+
   Future<String?> logIn(String username, String password) async {
-    final msg =jsonEncode({"email":username,"password":password});
-    var res = await http.post(Uri.parse("http://localhost:5432/api/users/login"),
-      headers: {'content-type':'application/json'},
-      body: msg
-      
-    );
+    final msg = jsonEncode({"email": username, "password": password});
+    var res = await http.post(
+        Uri.parse("http://localhost:5432/api/users/login"),
+        headers: {'content-type': 'application/json'},
+        body: msg);
     print(msg);
     print(res.body);
-    if(res.statusCode == 200) {
+    if (res.statusCode == 200) {
       var token = JWTtoken.fromJson(await jsonDecode(res.body));
-        storage.setItem('token', token.toString());
-        print (token);
-        return "200";
-    }
-    else{
+      storage.setItem('token', token.toString());
+      print(token);
+      return "200";
+    } else {
       return "401";
     }
   }
-  
 
   Future<void> deleteUsers(String name) async {
     var client = http.Client();
@@ -55,12 +54,17 @@ class UserServices extends ChangeNotifier {
     await client.delete(uri);
   }
 
-  Future<void> createUser(User user) async {
+  Future<String?> createUser(User user) async {
     var client = http.Client();
     var uri = Uri.parse('http://localhost:5432/api/users/register');
     var userJS = json.encode(user.toJson());
-    await client.post(uri,
+    var res = await client.post(uri,
         headers: {'content-type': 'application/json'}, body: userJS);
+    if (res.statusCode == 200) {
+      return "200";
+    } else {
+      return "400";
+    }
   }
 
   Future<void> loginUser(User user) async {
@@ -86,6 +90,7 @@ class UserServices extends ChangeNotifier {
     }
   }
 }
+
 class JWTtoken {
   final String tokValue;
 
@@ -98,7 +103,7 @@ class JWTtoken {
       tokValue: json['token'] as String,
     );
   }
- 
+
   String toString() {
     return tokValue;
   }

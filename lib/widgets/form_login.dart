@@ -72,7 +72,7 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
               String formPassword = passwordController.text.toString();
               print(formPassword);
 
-              var user = User(name: "", id: "", password: formPassword, email: formEmail);
+              var user = User(name: "", id: "", password: formPassword, email: formEmail, admin: false);
               await UserServices().createUser(user);
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const ListPage())

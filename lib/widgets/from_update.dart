@@ -15,7 +15,7 @@ String email = "h";
 String newpass = "h";
 
 updateU(String name, email, newpass) async {
-  var user = User(name: name, id: "", password: newpass, email: email);
+  var user = User(name: name, id: "", password: newpass, email: email, admin: false);
   bool res = await UserServices().updateUser(user);
   if (res == true) {
     return true;

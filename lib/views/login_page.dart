@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_front/services/userServices.dart';
-import 'package:flutter_front/views/account_page.dart';
+import 'package:flutter_front/views/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_front/models/user.dart';
@@ -162,7 +162,7 @@ showAlertDialog(BuildContext context) {
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => const AccountPage()));
+                                    MaterialPageRoute(builder: (context) => const RegisterPage()));
                                 },
                                 child: Text(
                                   'Sign Up',

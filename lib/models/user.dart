@@ -27,8 +27,8 @@ class User {
       this.routes,
       this.ratings,
       this.bookings,
-      this.vehicle
-});
+      this.vehicle,
+      required this.admin});
 
   String id;
   String name;
@@ -39,26 +39,23 @@ class User {
   List<Rating>? ratings;
   List<Booking>? bookings;
   Vehicle? vehicle;
+  bool admin;
 
+  factory User.fromJson(Map<String, dynamic> responseData) {
+    List<Route>? tmp1 = responseData["routes"] != null
+        ? List<Route>.from(
+            responseData["ratings"].map((x) => Route.fromJson(x)))
+        : null;
+    List<Rating>? tmp2 = responseData["ratings"] != null
+        ? List<Rating>.from(
+            responseData["ratings"].map((x) => Rating.fromJson(x)))
+        : null;
+    List<Booking>? tmp3 = responseData["bookings"] != null
+        ? List<Booking>.from(
+            responseData["bookings"].map((x) => Booking.fromJson(x)))
+        : null;
 
-
-  factory User.fromJson(Map<String, dynamic> responseData){ 
-  
-  List<Route>? tmp1 = responseData["routes"] != null
-          ? List<Route>.from(
-              responseData["ratings"].map((x) => Route.fromJson(x)))
-          : null;
-  List<Rating>? tmp2 = responseData["ratings"] != null
-          ? List<Rating>.from(
-              responseData["ratings"].map((x) => Rating.fromJson(x)))
-          : null;
-  List<Booking>? tmp3 = responseData["bookings"] != null
-          ? List<Booking>.from(
-              responseData["bookings"].map((x) => Booking.fromJson(x)))
-          : null;
-
-  return new User(
-
+    return new User(
         id: responseData["_id"],
         name: responseData["name"],
         password: responseData["password"],
@@ -67,9 +64,10 @@ class User {
         routes: tmp1,
         ratings: tmp2,
         bookings: tmp3,
-        vehicle: responseData["vehicle"] == null ? null : responseData["vehicle"]
-
-  );}
+        vehicle:
+            responseData["vehicle"] == null ? null : responseData["vehicle"],
+        admin: responseData["admin"]);
+  }
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -80,6 +78,7 @@ class User {
         "routes": routes,
         "ratings": ratings,
         "bookings": bookings,
-        "vehicle": vehicle 
+        "vehicle": vehicle,
+        "admin": admin
       };
 }
