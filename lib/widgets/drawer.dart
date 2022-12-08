@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/views/first_page.dart';
 import 'package:flutter_front/views/list_page.dart';
-import 'package:flutter_front/views/account_page.dart';
+import 'package:flutter_front/views/register.dart';
+import 'package:flutter_front/views/login.dart';
 import 'package:flutter_front/views/update_page.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -37,11 +38,21 @@ class DrawerScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text(
-              'User Account: Login & Register',
+              'User Account: Register',
             ),
             onTap: () {
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const AccountPage()));
+                  MaterialPageRoute(builder: (context) => const RegisterPage()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'User Account: Login',
+            ),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginPage()));
             },
           ),
           ListTile(

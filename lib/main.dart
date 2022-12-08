@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/models/user.dart';
 import 'package:flutter_front/services/userServices.dart';
-import 'package:flutter_front/views/account_page.dart';
+import 'package:flutter_front/views/register.dart';
 import 'package:flutter_front/views/first_page.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: AccountPage(),
+      home: RegisterPage(),
     );
   }
 }

@@ -40,6 +40,14 @@ class UserServices extends ChangeNotifier {
         headers: {'content-type': 'application/json'}, body: userJS);
   }
 
+  Future<void> loginUser(User user) async {
+    var client = http.Client();
+    var uri = Uri.parse('http://localhost:5432/api/users/login');
+    var userJS = json.encode(user.toJson());
+    await client.post(uri,
+        headers: {'content-type': 'application/json'}, body: userJS);
+  }
+
   Future<bool> updateUser(User user) async {
     var client = http.Client();
     var name = user.name;

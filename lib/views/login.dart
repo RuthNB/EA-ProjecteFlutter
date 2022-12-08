@@ -3,10 +3,10 @@ import 'package:flutter_front/widgets/drawer.dart';
 
 import '../widgets/form.dart';
 
-void main() => runApp(const AccountPage());
+void main() => runApp(const LoginPage());
 
-class AccountPage extends StatelessWidget {
-  const AccountPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class AccountPage extends StatelessWidget {
       home: Scaffold(
         drawer: const DrawerScreen(),
         appBar: AppBar(
-          title: const Text("Register"),
+          title: const Text("Login"),
           backgroundColor: Colors.deepPurple[300], 
           ),
         body: const FormWidget(),
