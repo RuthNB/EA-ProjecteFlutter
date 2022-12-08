@@ -34,7 +34,7 @@ class _FirstPage extends State<FirstPage> {
     return Scaffold(
       drawer: const DrawerScreen(),
       appBar: AppBar(
-        title: const Text('Seminari 10 Flutter'),
+        title: const Text('MobilEA'),
         backgroundColor: Colors.deepPurple[300], 
       ),
       body: Column(

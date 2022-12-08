@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 
 class UserServices extends ChangeNotifier {
 
   User _userData = new User(name:"",id: "",password:"",email: "");
 
   User get userData => _userData;
+
+  final LocalStorage storage = LocalStorage('key');
 
   void setUserData(User userData) {
     _userData = userData;
@@ -25,6 +28,26 @@ class UserServices extends ChangeNotifier {
     }
     return null;
   }
+  Future<String?> logIn(String username, String password) async {
+    final msg =jsonEncode({"email":username,"password":password});
+    var res = await http.post(Uri.parse("http://localhost:5432/api/users/login"),
+      headers: {'content-type':'application/json'},
+      body: msg
+      
+    );
+    print(msg);
+    print(res.body);
+    if(res.statusCode == 200) {
+      var token = JWTtoken.fromJson(await jsonDecode(res.body));
+        storage.setItem('token', token.toString());
+        print (token);
+        return "200";
+    }
+    else{
+      return "401";
+    }
+  }
+  
 
   Future<void> deleteUsers(String name) async {
     var client = http.Client();
@@ -61,5 +84,22 @@ class UserServices extends ChangeNotifier {
     } else {
       return false;
     }
+  }
+}
+class JWTtoken {
+  final String tokValue;
+
+  JWTtoken({
+    required this.tokValue,
+  });
+
+  factory JWTtoken.fromJson(Map<String, dynamic> json) {
+    return JWTtoken(
+      tokValue: json['token'] as String,
+    );
+  }
+ 
+  String toString() {
+    return tokValue;
   }
 }
