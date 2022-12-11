@@ -34,7 +34,7 @@ class User {
   String name;
   String password;
   String email;
-  DateTime? birthday;
+  String? birthday;
   List<Route>? routes;
   List<Rating>? ratings;
   List<Booking>? bookings;

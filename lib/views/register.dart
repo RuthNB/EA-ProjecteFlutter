@@ -184,13 +184,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                           });
                                           print(usernameController.text +
                                               passwordController.text);
-                                          var newUser = new User(
+                                          var newUser = User(
                                               id: "",
                                               name: usernameController.text,
                                               password: passwordController.text,
                                               email: emailController.text,
                                               admin: false,
-                                              birthday: DateTime.now());
+                                              birthday: DateTime.parse("20220101").toString());
                                           var res = await userService
                                               .createUser(newUser);
                                           if (res == "400") {
@@ -206,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                         }
                                       },
                                       child: const Text(
-                                        'HERE',
+                                        'SIGN UP',
                                         style: TextStyle(
                                             color: Colors.black, fontSize: 25),
                                       ),
@@ -227,20 +227,24 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String validateEmail(String value) {
     bool found = false;
-    for (int character in value.codeUnits) {
-      if (character == "@") {
-        found = true;
+    if (value != "") {
+      for (int character in value.codeUnits) {
+        if (character == "@") {
+          found = true;
+        }
       }
-    }
-    if (found == true) {
-      return "";
+      if (found == true) {
+        return "";
+      } else {
+        return "It must be an email.";
+      }
     } else {
-      return "It must be an email.";
+      return "";
     }
   }
 
   String validatePassword(String pass1, String pass2) {
-    if (pass1 == pass2) {
+    if ((pass1 == pass2) || (pass1 == "") || (pass2 == "")) {
       return "";
     } else {
       return "The passwords don't coincide.";
