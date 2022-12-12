@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/models/user.dart';
-import 'package:flutter_front/views/list_page.dart';
+import 'package:flutter_front/views/route_list_page.dart';
 import '../services/userServices.dart';
 
 
@@ -75,7 +75,7 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
               var user = User(name: "", id: "", password: formPassword, email: formEmail, admin: false);
               await UserServices().createUser(user);
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ListPage())
+                MaterialPageRoute(builder: (context) => const RouteListPage())
               );
             });
             

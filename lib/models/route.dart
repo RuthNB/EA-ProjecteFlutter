@@ -3,14 +3,14 @@ import 'dart:convert';
 
 import 'package:flutter_front/models/user.dart';
 
-List<Route> routeFromJson(String str) =>
-    List<Route>.from(json.decode(str).map((x) => Route.fromJson(x)));
+List<Route2> routeFromJson(String str) =>
+    List<Route2>.from(json.decode(str).map((x) => Route2.fromJson(x)));
 
-String routeToJson(List<Route> data) =>
+String routeToJson(List<Route2> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Route {
-  Route(
+class Route2 {
+  Route2(
       {
       //this.id = "", // non nullable but optional with a default value
       required this.name,
@@ -32,7 +32,7 @@ class Route {
   List<String>? stopPoint;
   DateTime dateOfBeggining;
 
-  factory Route.fromJson(Map<String, dynamic> responseData) {
+  factory Route2.fromJson(Map<String, dynamic> responseData) {
 
   List<User>? tmp1 = responseData["participants"] != null
           ? List<User>.from(
@@ -43,7 +43,7 @@ class Route {
               json.decode(responseData["stopPoint"]))
           : null;
 
-return new Route(id: responseData["_id"],
+return Route2(id: responseData["_id"],
         name: responseData["name"],
         creator: User.fromJson(responseData['creator']), //mirar si esta bé
         participants: tmp1,

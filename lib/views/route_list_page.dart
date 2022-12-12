@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_front/models/route.dart';
+import 'package:flutter_front/services/routeServices.dart';
 import 'package:flutter_front/services/userServices.dart';
 import 'package:flutter_front/views/first_page.dart';
-import 'package:flutter_front/views/user_info.dart';
+import 'package:flutter_front/views/route_info.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
 import '../widgets/drawer.dart';
 
-class ListPage extends StatefulWidget {
-  const ListPage({super.key});
+class RouteListPage extends StatefulWidget {
+  const RouteListPage({super.key});
 
   @override
-  State<ListPage> createState() => _HomePageState();
+  State<RouteListPage> createState() => _RoutePageState();
 }
 
-class _HomePageState extends State<ListPage> {
-  List<User>? users;
+class _RoutePageState extends State<RouteListPage> {
+  List<Route2>? availableRoutes;
   var isLoaded = false;
   @override
   void initState() {
@@ -24,30 +26,24 @@ class _HomePageState extends State<ListPage> {
   }
 
   getData() async {
-    users = await UserServices().getUsers();
-    if (users != null) {
+    availableRoutes = await RouteServices().getRoutes();
+    if (availableRoutes != null) {
       setState(() {
         isLoaded = true;
       });
     }
   }
 
-  deleteU(String name) async {
-    await UserServices().deleteUsers(name);
-  }
-
-
   @override
   Widget build(BuildContext context) {
-
-      UserServices _userprovider = Provider.of<UserServices>(context);
-
+    UserServices _userprovider = Provider.of<UserServices>(context);
+    RouteServices _routeprovder = Provider.of<RouteServices>(context);
 
     return Scaffold(
       drawer: const DrawerScreen(),
       appBar: AppBar(
-        title: const Text('Seminari 10 Fluter LLISTAT'),
-        backgroundColor: Colors.deepPurple[300],
+        title: const Text('Rutas disponibles'),
+        backgroundColor: const Color(0xFF4cbfa6),
       ),
       body: Visibility(
         visible: isLoaded,
@@ -55,13 +51,14 @@ class _HomePageState extends State<ListPage> {
           child: CircularProgressIndicator(),
         ),
         child: ListView.builder(
-          itemCount: users?.length,
+          itemCount: availableRoutes?.length,
           itemBuilder: (context, index) {
             return Card(
-              color: Colors.deepPurple[100],
+              color: const Color(0xFF4cbfa6),
               child: ListTile(
-                title: Text(users![index].name),
-                subtitle: Text(users![index].email),
+                title: Text(availableRoutes![index].name),
+                subtitle: Text(
+                    "Inicio:${availableRoutes![index].startPoint}| Final: ${availableRoutes![index].endPoint}"),
                 trailing: SizedBox(
                     width: 120,
                     child: Row(
@@ -70,8 +67,10 @@ class _HomePageState extends State<ListPage> {
                           child: IconButton(
                             icon: const Icon(Icons.article),
                             onPressed: () {
-                              showDialogFunc(context, users![index].name,
-                              users![index].email, users![index].id);
+                              _routeprovder
+                                  .setRouteData(availableRoutes![index]);
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const RouteInfo()));
                             },
                             tooltip: 'Details',
                           ),
@@ -86,27 +85,6 @@ class _HomePageState extends State<ListPage> {
                             },
                           ),
                         ),
-                        Expanded(
-                            child: IconButton(
-                          icon: const Icon(Icons.delete),
-                          tooltip: 'Delete',
-                          onPressed: () {
-                            deleteU(users![index].name.toString());
-                            setState(() {
-                              users!.removeAt(index);
-                            });
-                          },
-                        )),
-                        Expanded(
-                            child: IconButton(
-                          icon: const Icon(Icons.info_outline),
-                          tooltip: 'More Info',
-                          onPressed: () {
-                             _userprovider.setUserData(users![index]);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const UserInfo()));
-                          },
-                        )),
                       ],
                     )),
               ),
@@ -128,7 +106,7 @@ showDialogFunc(context, name, email, id) {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: const Color.fromARGB(255, 186, 179, 230),
+                color: const Color(0xFF4cbfa6),
               ),
               padding: const EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width,
@@ -140,28 +118,28 @@ showDialogFunc(context, name, email, id) {
                       "USER DETAILS:",
                       style: TextStyle(
                           fontSize: 20,
-                          color: Color.fromARGB(255, 49, 66, 86),
+                          color: Color(0xFF4cbfa6),
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "NAME : $name",
                       style: const TextStyle(
                         fontSize: 15,
-                        color: Color.fromARGB(255, 49, 66, 86),
+                        color: Color(0xFF4cbfa6),
                       ),
                     ),
                     Text(
                       "EMAIL : $email",
                       style: const TextStyle(
                         fontSize: 15,
-                        color: Color.fromARGB(255, 49, 66, 86),
+                        color: Color(0xFF4cbfa6),
                       ),
                     ),
                     const Text(
                       " ID : id",
                       style: TextStyle(
                         fontSize: 15,
-                        color: Color.fromARGB(255, 49, 66, 86),
+                        color: Color(0xFF4cbfa6),
                       ),
                     )
                   ]),

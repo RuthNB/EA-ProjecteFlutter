@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/models/user.dart';
-import 'package:flutter_front/views/list_page.dart';
+import 'package:flutter_front/views/route_list_page.dart';
 import 'package:flutter_front/views/login_page.dart';
 import '../services/userServices.dart';
 

@@ -23,7 +23,7 @@ class Booking {
       required this.selectedStopPoint
 });
 
-  Route route;
+  Route2 route;
   User user;
   DateTime dayOfCreation;
   double price;

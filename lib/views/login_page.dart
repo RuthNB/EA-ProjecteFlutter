@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_front/services/userServices.dart';
+import 'package:flutter_front/views/route_list_page.dart';
 import 'package:flutter_front/views/register.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -143,7 +144,7 @@ showAlertDialog(BuildContext context) {
                                         } 
                                         if (res == "200"){
                                           Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) => const FirstPage()));
+                                          MaterialPageRoute(builder: (context) => const RouteListPage()));
                                         }
                                         }
                                       },
