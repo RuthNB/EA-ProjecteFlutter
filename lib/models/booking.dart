@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:html';
 
@@ -20,28 +19,24 @@ class Booking {
       required this.dayOfCreation,
       required this.price,
       //required this.cancelPolicy,
-      required this.selectedStopPoint
-});
+      required this.selectedStopPoint});
 
-  Route route;
+  Routes route;
   User user;
   DateTime dayOfCreation;
   double price;
   //Falta el cancelPolicy
   String selectedStopPoint;
 
-
-  factory Booking.fromJson(Map<String, dynamic> responseData){ 
-
-  return new Booking(
-
+  factory Booking.fromJson(Map<String, dynamic> responseData) {
+    return new Booking(
         route: responseData["route"],
         user: responseData["user"],
         price: responseData["price"],
         dayOfCreation: responseData["dayOfCreation"],
         //cancelPolicy: responseData["cancelPolicy"],
-        selectedStopPoint: responseData["selectedStopPoint"]
-  );}
+        selectedStopPoint: responseData["selectedStopPoint"]);
+  }
 
   Map<String, dynamic> toJson() => {
         "route": route,

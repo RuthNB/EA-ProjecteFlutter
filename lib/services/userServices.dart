@@ -38,8 +38,9 @@ class UserServices extends ChangeNotifier {
         body: msg);
     print(msg);
     print(res.body);
+    var data = jsonDecode(res.body);
     if (res.statusCode == 200) {
-      var token = JWTtoken.fromJson(await jsonDecode(res.body));
+      var token = data['token'];
       storage.setItem('token', token.toString());
       print(token);
       return "200";

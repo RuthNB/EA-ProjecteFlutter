@@ -35,16 +35,16 @@ class User {
   String password;
   String email;
   DateTime? birthday;
-  List<Route>? routes;
+  List<Routes>? routes;
   List<Rating>? ratings;
   List<Booking>? bookings;
   Vehicle? vehicle;
   bool admin;
 
   factory User.fromJson(Map<String, dynamic> responseData) {
-    List<Route>? tmp1 = responseData["routes"] != null
-        ? List<Route>.from(
-            responseData["ratings"].map((x) => Route.fromJson(x)))
+    List<Routes>? tmp1 = responseData["routes"] != null
+        ? List<Routes>.from(
+            responseData["ratings"].map((x) => Routes.fromJson(x)))
         : null;
     List<Rating>? tmp2 = responseData["ratings"] != null
         ? List<Rating>.from(

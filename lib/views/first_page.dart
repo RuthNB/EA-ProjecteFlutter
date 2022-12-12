@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_front/services/routeServices.dart';
+import 'package:flutter_front/views/my_profile.dart';
+import 'package:flutter_front/views/result_routes.dart';
+import 'package:web_date_picker/web_date_picker.dart';
+import '../models/route.dart';
 import '../widgets/drawer.dart';
-
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -11,57 +14,261 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPage extends State<FirstPage> {
-  List<String> values=[
-    'assets/image1.jpg',
-    'assets/image2.jpg',
-    'assets/image3.jpg',
-    'assets/image4.jpg',
-    'assets/image5.jpg',
-    'assets/image6.jpg',
-    'assets/image7.jpg',
-    'assets/image8.jpg',
-    'assets/image9.jpg',
-    'assets/image10.jpg',
-    'assets/image11.jpg',
-    'assets/image12.jpg',
-    'assets/image13.jpg',
-    'assets/image14.jpg',
-    'assets/image15.jpg',
-    'assets/image16.jpg',
-  ];
+  final startPointController = TextEditingController();
+  final stopPointController = TextEditingController();
+  final dateInputController = TextEditingController();
+  final time1InputController = TextEditingController();
+  final time2InputController = TextEditingController();
+  bool buttonEnabled = false;
+  @override
+  void dispose() {
+    startPointController.dispose();
+    stopPointController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerScreen(),
-      appBar: AppBar(
-        title: const Text('MobilEA'),
-        backgroundColor: Colors.deepPurple[300], 
-      ),
-      body: Column(
-        children: <Widget>[ 
-         Card(
-              color: Colors.deepPurple[100],
-              child: const ListTile(
-                title: Text('Imagineu que és una app de reserva de restaurants' + "\n" + 'En la pagina principal es podria veure la galeria dels restaurants'),
-              ),
-         ),
-        Expanded(child: 
-        GridView.builder(
-          itemCount: 16,
-          itemBuilder: (context, index){
-            return Card(
-              elevation: 10, 
-              child: Center(
-                child: Image.asset(values[index]),
-              ),
-            );
-          },
-          gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+        appBar: AppBar(
+          backgroundColor: Color(0xFF4cbfa6),
+          leading: Icon(
+            Icons.time_to_leave,
+            color: Color(0xFFF6EBF4),
+            size: 50,
+          ),
+          actions: <Widget>[
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyProfile()));
+                },
+                child: const Text(
+                  'My Profile',
+                  style: TextStyle(color: Colors.black, fontSize: 25),
+                ))
+          ],
         ),
-        ),
+        body: Container(
+          //width: double.infinity,
+          color: Color(0xFFF6EBF4),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: TextField(
+                  controller: startPointController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      labelText: 'From',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+                width: 30,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: TextField(
+                  controller: stopPointController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      labelText: "To",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+                width: 30,
+              ),
+              SizedBox(
+                  width: 300,
+                  height: 50,
+                  child: Container(
+                      child: WebDatePicker(
+                    dateformat: 'dd/MM/yyyy',
+                    onChange: (value) {
+                      dateInputController.text = value.toString();
+                    },
+                  ))),
+              SizedBox(
+                height: 30,
+                width: 30,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: TextField(
+                  controller: time1InputController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      labelText: "Hour",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: TextField(
+                  controller: time2InputController,
+                  style: TextStyle(color: Colors.black),
+                  decoration: InputDecoration(
+                      fillColor: Colors.grey.shade100,
+                      filled: true,
+                      labelText: "Hour",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      )),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+                width: 30,
+              ),
+              SizedBox(
+                width: 300,
+                height: 50,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Color(0xFF4cbfa6),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: TextButton(
+                    onPressed: () async {
+                      if ((startPointController.text.isNotEmpty) &&
+                          (stopPointController.text.isNotEmpty) &&
+                          (dateInputController.text.isNotEmpty) &&
+                          (time1InputController.text.isNotEmpty) &&
+                          (time2InputController.text.isNotEmpty)) {
+                        String startDate = dateInputController.text +
+                            'T' +
+                            time1InputController.text +
+                            ':00.000Z';
+                        String stopDate = dateInputController.text +
+                            'T' +
+                            time2InputController.text +
+                            ':00.000Z';
+                        setState(() {
+                          buttonEnabled = true;
+                        });
+
+                        /* var res = await routeService.getSearchedRoutes(
+                            startPointController.text,
+                            stopPointController.text,
+                            dateInputController.text,
+                            startDate,
+                            stopDate); */
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ResultRoutes(
+                                startPoint: startPointController.text,
+                                stopPoint: stopPointController.text,
+                                dateStart: startDate,
+                                dateStop: stopDate)));
+                      }
+                    },
+                    child: const Text(
+                      'SEARCH',
+                      style: TextStyle(color: Colors.black, fontSize: 25),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+        /* body: Stack(children: [
+          Container(
+            padding: EdgeInsets.only(left: 35, top: 130),
+            child: Text(
+              'Welcome\nBack',
+              style: TextStyle(color: Colors.black, fontSize: 45),
+            ),
+          ),
+          SingleChildScrollView(
+              child: Container(
+                  padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.5),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 35, right: 35),
+                        child: Column(children: [
+                          TextField(
+                            controller: startPointController,
+                            style: TextStyle(color: Colors.black),
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.shade100,
+                                filled: true,
+                                hintText: "Email",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          TextField(
+                            controller: stopPointController,
+                            style: TextStyle(),
+                            obscureText: true,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.shade100,
+                                filled: true,
+                                hintText: "Password",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                )),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                        ]),
+                      )
+                    ],
+                  )))
+        ]) */
+        /* body: Row(
+        children: [
+          TextField(
+              controller: startPointController,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  fillColor: Colors.grey.shade100,
+                  filled: true,
+                  hintText: "Start point",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ))),
+          TextField(
+              controller: startPointController,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                  fillColor: Colors.grey.shade100,
+                  filled: true,
+                  hintText: "Start point",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  )))
         ],
-      ),
-    );
+      ), */
+        );
   }
 }
