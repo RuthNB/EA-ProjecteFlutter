@@ -9,16 +9,18 @@ import 'package:provider/provider.dart';
 import '../models/user.dart';
 import '../widgets/drawer.dart';
 
-class RouteListPage extends StatefulWidget {
-  const RouteListPage({super.key});
+class MyProfilePage extends StatefulWidget {
+  const MyProfilePage({super.key});
 
   @override
-  State<RouteListPage> createState() => _RoutePageState();
+  State<MyProfilePage> createState() => _MyProfilePageState();
 }
 
-class _RoutePageState extends State<RouteListPage> {
-  List<Route2>? availableRoutes;
+class _MyProfilePageState extends State<MyProfilePage> {
+  late User availableUser;
   var isLoaded = false;
+
+  late User user;
   @override
   void initState() {
     super.initState();
@@ -26,8 +28,8 @@ class _RoutePageState extends State<RouteListPage> {
   }
 
   getData() async {
-    availableRoutes = await RouteServices().getRoutes();
-    if (availableRoutes != null) {
+    availableUser = (await UserServices().getProfile(user))!;
+    if (availableUser != null) {
       setState(() {
         isLoaded = true;
       });
@@ -42,54 +44,58 @@ class _RoutePageState extends State<RouteListPage> {
     return Scaffold(
       drawer: const DrawerScreen(),
       appBar: AppBar(
-        title: const Text('Available Routes'),
+        title: Text('My Profile'),
         backgroundColor: const Color(0xFF4cbfa6),
       ),
-      body: Visibility(
-        visible: isLoaded,
-        replacement: const Center(
-          child: CircularProgressIndicator(),
-        ),
-        child: ListView.builder(
-          itemCount: availableRoutes?.length,
-          itemBuilder: (context, index) {
-            return Card(
-              color: const Color(0xFF4cbfa6),
-              child: ListTile(
-                title: Text(availableRoutes![index].name),
-                subtitle: Text(
-                    "Inicio:${availableRoutes![index].startPoint}| Final: ${availableRoutes![index].endPoint}"),
-                trailing: SizedBox(
-                    width: 120,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: IconButton(
-                            icon: const Icon(Icons.article),
-                            onPressed: () {
-                              _routeprovder
-                                  .setRouteData(availableRoutes![index]);
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const RouteInfo()));
-                            },
-                            tooltip: 'Details',
-                          ),
-                        ),
-                        Expanded(
-                          child: IconButton(
-                            icon: const Icon(Icons.home),
-                            tooltip: 'Main',
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const FirstPage()));
-                            },
-                          ),
-                        ),
-                      ],
-                    )),
+      body: SizedBox(
+        width: 900,
+        height: 701,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              width: 300,
+              height: 100,
+              child: Text(_userprovider.userData.name,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
+            ),
+            SizedBox(
+              width: 300,
+              height: 100,
+              child: Text(_userprovider.userData.email,
+                  style: const TextStyle(fontSize: 16)),
+            ),
+            // SizedBox(
+            //   width: 300,
+            //   height: 100,
+            //   child: Text(_userprovider.userData.birthday,
+            //       style: const TextStyle(fontSize: 16)),
+            // ),
+            SizedBox(
+              height: 300,
+              width: 300,
+              child: Container(
+                width: 120,
+                height: 120,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.rectangle,
+                ),
+                child: Container(
+                  alignment: Alignment.center,
+                  margin: const EdgeInsets.only(
+                      top: 40, bottom: 10, left: 20, right: 20),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          "https://img.freepik.com/vector-premium/vista-superior-3d-mapa-punto-ubicacion-destino-vista-superior-limpia-aerea-mapa-ciudad-dia-calle-rio-mapa-imaginacion-urbana-blanco-concepto-navegador-mapas-gps-ilustracion-vectorial_34645-1264.jpg?w=2000"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );

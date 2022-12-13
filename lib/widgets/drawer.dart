@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/views/first_page.dart';
+import 'package:flutter_front/views/profile_page.dart';
 import 'package:flutter_front/views/route_list_page.dart';
 import 'package:flutter_front/views/register.dart';
 import 'package:flutter_front/views/login.dart';
@@ -31,8 +32,18 @@ class DrawerScreen extends StatelessWidget {
               'Available Routes',
             ),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const RouteListPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const RouteListPage()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'MyProfile',
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const MyProfilePage()));
             },
           ),
         ],
