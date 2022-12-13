@@ -10,29 +10,45 @@ import '../models/user.dart';
 import '../widgets/drawer.dart';
 
 class RouteListPage extends StatefulWidget {
-  const RouteListPage({super.key});
+  final String stopPoint;
+  final String startPoint;
+  final String dateStart;
+  final String dateStop;
+  const RouteListPage(
+      {super.key,
+      required this.startPoint,
+      required this.stopPoint,
+      required this.dateStart,
+      required this.dateStop});
 
   @override
   State<RouteListPage> createState() => _RoutePageState();
 }
 
 class _RoutePageState extends State<RouteListPage> {
-  List<Route2>? availableRoutes;
-  var isLoaded = false;
+  late Future<List<Routes>?>? availableRoutes;
+  //RouteServices routeService = RouteServices();
   @override
   void initState() {
     super.initState();
-    getData();
+    availableRoutes = fetchRoutes();
+    /* availableRoutes = routeService.getSearchedRoutes(
+        widget.startPoint, widget.stopPoint, widget.dateStart, widget.dateStop);
+    print(availableRoutes);
+    print('arribat'); */
   }
 
-  getData() async {
-    availableRoutes = await RouteServices().getRoutes();
-    if (availableRoutes != null) {
-      setState(() {
-        isLoaded = true;
-      });
-    }
+  Future<List<Routes>> fetchRoutes() async {
+    var routes = await RouteServices.getRoutes();
+    return routes;
   }
+  /* getData(String dStart, String dStop, String pStart, String pStop) {
+    availableRoutes =
+        RouteServices().getSearchedRoutes(pStart, pStop, dStart, dStop);
+    print(availableRoutes);
+    //await RouteServices().getRoutes();
+    return availableRoutes;
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +56,87 @@ class _RoutePageState extends State<RouteListPage> {
     RouteServices _routeprovder = Provider.of<RouteServices>(context);
 
     return Scaffold(
+<<<<<<< HEAD
       drawer: const DrawerScreen(),
       appBar: AppBar(
         title: const Text('Available Routes'),
         backgroundColor: const Color(0xFF4cbfa6),
       ),
       body: Visibility(
+=======
+        drawer: const DrawerScreen(),
+        appBar: AppBar(
+          title: const Text('Rutas disponibles'),
+          backgroundColor: const Color(0xFF4cbfa6),
+        ),
+        body: FutureBuilder<List<Routes>?>(
+          // initialData: [],
+          future:
+              availableRoutes /*  RouteServices().getRoutes(
+              widget.startPoint,
+              widget.stopPoint, widget.dateStart, widget.dateStop 
+              ) */
+          ,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              print(availableRoutes);
+              print(snapshot.data);
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: const Color(0xFF4cbfa6),
+                    child: ListTile(
+                      title: Text(snapshot.data![index].name),
+                      subtitle: Text(
+                          "Inicio:${snapshot.data![index].startPoint.toString()}| Final: ${snapshot.data![index].endPoint.toString()}"),
+                      trailing: SizedBox(
+                          width: 120,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: IconButton(
+                                  icon: const Icon(Icons.article),
+                                  onPressed: () {
+                                    _routeprovder
+                                        .setRouteData(snapshot.data![index]);
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const RouteInfo()));
+                                  },
+                                  tooltip: 'Details',
+                                ),
+                              ),
+                              Expanded(
+                                child: IconButton(
+                                  icon: const Icon(Icons.home),
+                                  tooltip: 'Main',
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const FirstPage()));
+                                  },
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                  );
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        )
+
+        /*Visibility(
+>>>>>>> refs/remotes/origin/main
         visible: isLoaded,
         replacement: const Center(
           child: CircularProgressIndicator(),
@@ -91,8 +182,8 @@ class _RoutePageState extends State<RouteListPage> {
             );
           },
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }
 

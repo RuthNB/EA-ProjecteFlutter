@@ -1,16 +1,15 @@
-
 import 'dart:convert';
 
 import 'package:flutter_front/models/user.dart';
 
-List<Route2> routeFromJson(String str) =>
-    List<Route2>.from(json.decode(str).map((x) => Route2.fromJson(x)));
+List<Routes> routeFromJson(String str) =>
+    List<Routes>.from(json.decode(str).map((x) => Routes.fromJson(x)));
 
-String routeToJson(List<Route2> data) =>
+String routeToJson(List<Routes> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Route2 {
-  Route2(
+class Routes {
+  Routes(
       {
       //this.id = "", // non nullable but optional with a default value
       required this.name,
@@ -20,8 +19,7 @@ class Route2 {
       required this.startPoint,
       required this.endPoint,
       required this.stopPoint,
-      required this.dateOfBeggining
-      });
+      required this.dateOfBeggining});
 
   String id;
   String name;
@@ -32,28 +30,25 @@ class Route2 {
   List<String>? stopPoint;
   DateTime dateOfBeggining;
 
-  factory Route2.fromJson(Map<String, dynamic> responseData) {
+  factory Routes.fromJson(Map<String, dynamic> responseData) {
+    List<User>? tmp1 = responseData["participants"] != null
+        ? List<User>.from(
+            responseData["participants"].map((x) => User.fromJson(x)))
+        : null;
+    List<String>? tmp2 = responseData["stopPoint"] != null
+        ? List<String>.from(json.decode(responseData["stopPoint"]))
+        : null;
 
-  List<User>? tmp1 = responseData["participants"] != null
-          ? List<User>.from(
-              responseData["participants"].map((x) => User.fromJson(x)))
-          : null;
-  List<String>? tmp2 = responseData["stopPoint"] != null
-          ? List<String>.from(
-              json.decode(responseData["stopPoint"]))
-          : null;
-
-return Route2(id: responseData["_id"],
+    return Routes(
+        id: responseData["_id"],
         name: responseData["name"],
         creator: User.fromJson(responseData['creator']), //mirar si esta bé
         participants: tmp1,
         startPoint: responseData["startPoint"],
         endPoint: responseData["endPoint"],
         stopPoint: tmp2,
-        dateOfBeggining: responseData["dateOfBeggining"]
-      );
+        dateOfBeggining: responseData["dateOfBeggining"]);
   }
-        
 
   Map<String, dynamic> toJson() => {
         "_id": id,
