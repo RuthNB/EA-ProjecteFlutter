@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/models/user.dart';
+import 'package:flutter_front/services/routeServices.dart';
 import 'package:flutter_front/services/userServices.dart';
 import 'package:flutter_front/views/login.dart';
 import 'package:flutter_front/views/register.dart';
@@ -12,6 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserServices()),
+        ChangeNotifierProvider(create: (_) => RouteServices())
       ],
       child: const MyApp(),
     ),
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyLogin(),
+      home: FirstPage(),
     );
   }
 }

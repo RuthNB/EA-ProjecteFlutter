@@ -34,7 +34,7 @@ class User {
   String name;
   String password;
   String email;
-  DateTime? birthday;
+  String? birthday;
   List<Routes>? routes;
   List<Rating>? ratings;
   List<Booking>? bookings;
@@ -55,7 +55,7 @@ class User {
             responseData["bookings"].map((x) => Booking.fromJson(x)))
         : null;
 
-    return new User(
+    return User(
         id: responseData["_id"],
         name: responseData["name"],
         password: responseData["password"],
@@ -64,8 +64,7 @@ class User {
         routes: tmp1,
         ratings: tmp2,
         bookings: tmp3,
-        vehicle:
-            responseData["vehicle"] == null ? null : responseData["vehicle"],
+        vehicle: responseData["vehicle"],
         admin: responseData["admin"]);
   }
 

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_front/services/routeServices.dart';
 import 'package:flutter_front/views/my_profile.dart';
 import 'package:flutter_front/views/result_routes.dart';
+import 'package:flutter_front/views/route_list_page.dart';
 import 'package:web_date_picker/web_date_picker.dart';
 import '../models/route.dart';
 import '../widgets/drawer.dart';
+import 'package:intl/intl.dart';
 
 class FirstPage extends StatefulWidget {
   const FirstPage({super.key});
@@ -58,7 +60,8 @@ class _FirstPage extends State<FirstPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              Flexible(
+                  child: SizedBox(
                 width: 300,
                 height: 50,
                 child: TextField(
@@ -72,12 +75,13 @@ class _FirstPage extends State<FirstPage> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-              ),
+              )),
               SizedBox(
                 height: 30,
                 width: 30,
               ),
-              SizedBox(
+              Flexible(
+                  child: SizedBox(
                 width: 300,
                 height: 50,
                 child: TextField(
@@ -91,26 +95,30 @@ class _FirstPage extends State<FirstPage> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-              ),
+              )),
               SizedBox(
                 height: 30,
                 width: 30,
               ),
-              SizedBox(
-                  width: 300,
-                  height: 50,
-                  child: Container(
-                      child: WebDatePicker(
-                    dateformat: 'dd/MM/yyyy',
-                    onChange: (value) {
-                      dateInputController.text = value.toString();
-                    },
-                  ))),
+              Flexible(
+                  child: SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: Container(
+                          child: WebDatePicker(
+                        dateformat: 'yyyy-MM-dd',
+                        onChange: (value) {
+                          var outputFormat = DateFormat('yyyy-MM-dd');
+                          dateInputController.text =
+                              outputFormat.format(value!).toString();
+                        },
+                      )))),
               SizedBox(
                 height: 30,
                 width: 30,
               ),
-              SizedBox(
+              Flexible(
+                  child: SizedBox(
                 width: 300,
                 height: 50,
                 child: TextField(
@@ -124,8 +132,9 @@ class _FirstPage extends State<FirstPage> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-              ),
-              SizedBox(
+              )),
+              Flexible(
+                  child: SizedBox(
                 width: 300,
                 height: 50,
                 child: TextField(
@@ -139,12 +148,13 @@ class _FirstPage extends State<FirstPage> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
-              ),
+              )),
               SizedBox(
                 height: 30,
                 width: 30,
               ),
-              SizedBox(
+              Flexible(
+                  child: SizedBox(
                 width: 300,
                 height: 50,
                 child: Container(
@@ -177,7 +187,7 @@ class _FirstPage extends State<FirstPage> {
                             startDate,
                             stopDate); */
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ResultRoutes(
+                            builder: (context) => RouteListPage(
                                 startPoint: startPointController.text,
                                 stopPoint: stopPointController.text,
                                 dateStart: startDate,
@@ -190,7 +200,7 @@ class _FirstPage extends State<FirstPage> {
                     ),
                   ),
                 ),
-              ),
+              )),
             ],
           ),
         )

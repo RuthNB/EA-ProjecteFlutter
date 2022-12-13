@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_front/models/user.dart';
-import 'package:flutter_front/views/list_page.dart';
+import 'package:flutter_front/views/route_list_page.dart';
 import '../services/userServices.dart';
-
-
 
 class FormLoginWidget extends StatefulWidget {
   const FormLoginWidget({super.key});
@@ -20,8 +18,6 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-
 
   final GlobalKey<FormState> _formKey =
       GlobalKey<FormState>(); // Permet accedir al form desde qualseevol lloc
@@ -55,7 +51,6 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
                 hintText: 'Enter your password',
               ),
               controller: passwordController,
-
               validator: (String? value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
@@ -64,23 +59,29 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
               },
             ),
           ),
-          TextButton(onPressed: (){
-            setState (() async { //aquí dona error
-              String formEmail = emailController.text.toString();
-              print(formEmail);
+          TextButton(
+              onPressed: () {
+                setState(() async {
+                  //aquí dona error
+                  String formEmail = emailController.text.toString();
+                  print(formEmail);
 
-              String formPassword = passwordController.text.toString();
-              print(formPassword);
+                  String formPassword = passwordController.text.toString();
+                  print(formPassword);
 
-              var user = User(name: "", id: "", password: formPassword, email: formEmail, admin: false);
-              await UserServices().createUser(user);
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const ListPage())
-              );
-            });
-            
-
-          }, child: Text ('Submit')),
+                  var user = User(
+                      name: "",
+                      id: "",
+                      password: formPassword,
+                      email: formEmail,
+                      admin: false);
+                  await UserServices().createUser(user);
+                  /* Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const RouteListPage())
+              ); */
+                });
+              },
+              child: Text('Submit')),
           // Padding(
           //   padding: const EdgeInsets.symmetric(vertical: 16.0),
           //   child: ElevatedButton(
@@ -96,8 +97,6 @@ class _MyStatefulWidgetState extends State<FormLoginWidget> {
           // ),
         ],
       ),
-          
-
     );
   }
 }

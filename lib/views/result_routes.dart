@@ -21,7 +21,7 @@ class ResultRoutes extends StatefulWidget {
 }
 
 class _ResultRoutesState extends State<ResultRoutes> {
-  RouteService routeService = RouteService();
+  RouteServices routeService = RouteServices();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(

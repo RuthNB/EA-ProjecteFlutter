@@ -9,7 +9,7 @@ import 'package:localstorage/localstorage.dart';
 
 class UserServices extends ChangeNotifier {
   User _userData =
-      new User(name: "", id: "", password: "", email: "", admin: false);
+      User(name: "", id: "", password: "", email: "", admin: false);
 
   User get userData => _userData;
 
