@@ -25,16 +25,16 @@ class RouteServices extends ChangeNotifier {
     _routeData = routeData;
   }
 
-  Future<List<Routes>?> getRoutes() async {
+  static Future<List<Routes>> getRoutes() async {
     var client = http.Client();
     var uri = Uri.parse('http://localhost:5432/api/routes');
     var response = await client.get(uri);
 
     if (response.statusCode == 200) {
       var json = response.body;
-      return routeFromJson(json);
     }
-    return null;
+    String data = jsonDecode(response.body);
+    return routeFromJson(data);
   }
 
   Future<List<Routes>?> getSearchedRoutes(

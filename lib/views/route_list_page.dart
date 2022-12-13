@@ -26,17 +26,22 @@ class RouteListPage extends StatefulWidget {
 }
 
 class _RoutePageState extends State<RouteListPage> {
-  Future<List<Routes>?>? availableRoutes;
-
+  late Future<List<Routes>?>? availableRoutes;
+  //RouteServices routeService = RouteServices();
   @override
   void initState() {
     super.initState();
-    availableRoutes = RouteServices().getSearchedRoutes(
+    availableRoutes = fetchRoutes();
+    /* availableRoutes = routeService.getSearchedRoutes(
         widget.startPoint, widget.stopPoint, widget.dateStart, widget.dateStop);
     print(availableRoutes);
-    print('arribat');
+    print('arribat'); */
   }
 
+  Future<List<Routes>> fetchRoutes() async {
+    var routes = await RouteServices.getRoutes();
+    return routes;
+  }
   /* getData(String dStart, String dStop, String pStart, String pStop) {
     availableRoutes =
         RouteServices().getSearchedRoutes(pStart, pStop, dStart, dStop);
@@ -56,8 +61,8 @@ class _RoutePageState extends State<RouteListPage> {
           title: const Text('Rutas disponibles'),
           backgroundColor: const Color(0xFF4cbfa6),
         ),
-        body: Text(
-            "data") /* FutureBuilder<List<Routes>?>(
+        body: FutureBuilder<List<Routes>?>(
+          // initialData: [],
           future:
               availableRoutes /*  RouteServices().getRoutes(
               widget.startPoint,
@@ -66,11 +71,12 @@ class _RoutePageState extends State<RouteListPage> {
           ,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print(availableRoutes);
+              print(snapshot.data);
               return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return Text(
-                      "hola que ase"); /* Card(
+                  return Card(
                     color: const Color(0xFF4cbfa6),
                     child: ListTile(
                       title: Text(snapshot.data![index].name),
@@ -109,17 +115,17 @@ class _RoutePageState extends State<RouteListPage> {
                             ],
                           )),
                     ),
-                  ); */
+                  );
                 },
               );
             } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
+              return Text(snapshot.error.toString());
             }
             return const Center(
               child: CircularProgressIndicator(),
             );
           },
-        ) */
+        )
 
         /*Visibility(
         visible: isLoaded,
@@ -172,7 +178,7 @@ class _RoutePageState extends State<RouteListPage> {
   }
 }
 
-/* showDialogFunc(context, name, email, id) {
+showDialogFunc(context, name, email, id) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -224,4 +230,3 @@ class _RoutePageState extends State<RouteListPage> {
         );
       });
 }
- */
