@@ -25,6 +25,13 @@ class RouteServices extends ChangeNotifier {
     _routeData = routeData;
   }
 
+  List<Routes> _listRoute = [];
+  List<Routes> get listRoute => _listRoute;
+
+    void setListRouteData(List<Routes> listRoute) {
+    _listRoute = listRoute;
+  }
+
   static Future<List<Routes>> getRoutes() async {
     var client = http.Client();
     var uri = Uri.parse('http://localhost:5432/api/routes');
@@ -90,6 +97,29 @@ class RouteServices extends ChangeNotifier {
       );
       if (response.statusCode == 200) {
         //Convert from json List of Map to List of Student
+        return "200";
+      } else {
+        return "400";
+      }
+    } catch (err) {
+      return "300";
+    }
+  }
+
+    Future<String> newBooking(Routes nRoute, User part, String selectedStopPoint) async {
+    final Map<String, dynamic> registerData = {
+      'id': part.name, 
+      'route': nRoute.name,
+      'price': nRoute.price,
+      'selectedStopPoint': selectedStopPoint,
+    };
+    try {
+      Response response = await post(
+        Uri.parse('http://localhost:5432/api/bookings/create'),
+        body: json.encode(registerData),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
         return "200";
       } else {
         return "400";

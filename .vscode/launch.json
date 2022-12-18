@@ -5,21 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "flutter_front",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_front (profile mode)",
+            "name": "FltuterWeb",
+            "program": "lib/main.dart",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "args": [
+                "--web-port=5000",
+                "--web-enable-expression-evaluation" 
+            ],
         },
-        {
-            "name": "flutter_front (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
     ]
 }

@@ -1,4 +1,7 @@
 {
     "dart.flutterSdkPath": "C:\\src\\flutter",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.words": [
+        "routeprovder"
+    ]
 }

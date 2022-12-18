@@ -89,8 +89,10 @@ class _RoutePageState extends State<RouteInfo> {
                   _routeprovider.newParticipant(
                       _routeprovider.routeData, _userprovider.userData);
                   _routeprovider.newRouteInUser(
-                      _routeprovider.routeData, _userprovider.userData);  
-                   Navigator.pop(context);
+                      _routeprovider.routeData, _userprovider.userData);
+                  _routeprovider.newBooking(_routeprovider.routeData,
+                      _userprovider.userData, "selectedStopPoint");
+                  Navigator.pop(context);
                 },
                 child: const Text(
                   'JOIN IN',

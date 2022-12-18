@@ -19,7 +19,8 @@ class Routes {
       required this.startPoint,
       required this.endPoint,
       required this.stopPoint,
-      required this.dateOfBeggining});
+      required this.dateOfBeggining,
+      this.price});
 
   String id;
   String name;
@@ -29,6 +30,7 @@ class Routes {
   String endPoint;
   List<String>? stopPoint;
   DateTime dateOfBeggining;
+  double? price;
 
   factory Routes.fromJson(Map<String, dynamic> responseData) {
     List<User>? tmp1 = responseData["participants"] != null
@@ -47,7 +49,8 @@ class Routes {
         startPoint: responseData["startPoint"],
         endPoint: responseData["endPoint"],
         stopPoint: tmp2,
-        dateOfBeggining: responseData["dateOfBeggining"]);
+        dateOfBeggining: responseData["dateOfBeggining"],
+        price: responseData["price"]);
   }
 
   Map<String, dynamic> toJson() => {
@@ -58,6 +61,7 @@ class Routes {
         "startPoint": startPoint,
         "endPoint": endPoint,
         "stopPoint": stopPoint,
+        "price": price,
         "dateOfBeggining": dateOfBeggining
       };
 }

@@ -32,7 +32,26 @@ class DrawerScreen extends StatelessWidget {
               'Available Routes',
             ),
             onTap: () {
-<<<<<<< HEAD
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const RouteListPage()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'My Routes',
+            ),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const RouteListPage()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.home),
+            title: const Text(
+              'My Bookings',
+            ),
+            onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const RouteListPage()));
             },
@@ -45,10 +64,6 @@ class DrawerScreen extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => const MyProfilePage()));
-=======
-              /* Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const RouteListPage())); */
->>>>>>> refs/remotes/origin/main
             },
           ),
         ],

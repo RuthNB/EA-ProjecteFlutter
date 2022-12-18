@@ -17,14 +17,12 @@ class Booking {
       required this.route,
       required this.user,
       required this.dayOfCreation,
-      required this.price,
       //required this.cancelPolicy,
       required this.selectedStopPoint});
 
   Routes route;
   User user;
   DateTime dayOfCreation;
-  double price;
   //Falta el cancelPolicy
   String selectedStopPoint;
 
@@ -32,7 +30,6 @@ class Booking {
     return new Booking(
         route: responseData["route"],
         user: responseData["user"],
-        price: responseData["price"],
         dayOfCreation: responseData["dayOfCreation"],
         //cancelPolicy: responseData["cancelPolicy"],
         selectedStopPoint: responseData["selectedStopPoint"]);
@@ -41,7 +38,6 @@ class Booking {
   Map<String, dynamic> toJson() => {
         "route": route,
         "user": user,
-        "price": price,
         //"cancelPolicy": cancelPolicy,
         "selectedStopPoint": selectedStopPoint
       };

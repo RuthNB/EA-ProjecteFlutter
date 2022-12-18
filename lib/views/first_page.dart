@@ -187,11 +187,7 @@ class _FirstPage extends State<FirstPage> {
                             startDate,
                             stopDate); */
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => RouteListPage(
-                                startPoint: startPointController.text,
-                                stopPoint: stopPointController.text,
-                                dateStart: startDate,
-                                dateStop: stopDate)));
+                            builder: (context) => const RouteListPage()));
                       }
                     },
                     child: const Text(
